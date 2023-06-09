@@ -10,6 +10,7 @@ export default function Header() {
         width={150}
         height={33}
         className="w-64 mb-8 md:b-0"
+        priority
       />
     </header>
   );
