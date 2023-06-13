@@ -1,12 +1,16 @@
 'use client';
 
-
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import AuthContext from '../context/auth/authContext';
 
 export default function CrearCuanta() {
+  // Acceder al state
+  const authContext = useContext(AuthContext);
+  const { usuarioAutenticado } = authContext;
+
   // Formulario y validación con formik y yup
 
   const formik = useFormik({
@@ -17,8 +21,12 @@ export default function CrearCuanta() {
     },
     validationSchema: Yup.object({
       nombre: Yup.string().required('El nombre es obligatorio'),
-      email: Yup.string().email('El Email no es válido').required('El Email es obligatorio'),
-      password: Yup.string().required('EL password es obligatorio').min(6, 'El password debe ser de al menos 6 caracteres')
+      email: Yup.string()
+        .email('El Email no es válido')
+        .required('El Email es obligatorio'),
+      password: Yup.string()
+        .required('El password es obligatorio')
+        .min(6, 'El password debe ser de al menos 6 caracteres'),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -77,7 +85,7 @@ export default function CrearCuanta() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                 {formik.touched.email && formik.errors.email ? (
+                {formik.touched.email && formik.errors.email ? (
                   <div className="my-2 bg-gray-200 border-l-4 border-red-500 text-red-700 p-4">
                     <p className="font-bold">Error</p>
                     <p>{formik.errors.email}</p>
@@ -100,7 +108,7 @@ export default function CrearCuanta() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                 {formik.touched.password && formik.errors.password ? (
+                {formik.touched.password && formik.errors.password ? (
                   <div className="my-2 bg-gray-200 border-l-4 border-red-500 text-red-700 p-4">
                     <p className="font-bold">Error</p>
                     <p>{formik.errors.password}</p>
