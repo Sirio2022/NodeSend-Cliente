@@ -9,7 +9,7 @@ import AuthContext from '../context/auth/authContext';
 export default function CrearCuanta() {
   // Acceder al state
   const authContext = useContext(AuthContext);
-  const { usuarioAutenticado } = authContext;
+  const { registrarUsuario } = authContext;
 
   // Formulario y validación con formik y yup
 
@@ -29,12 +29,16 @@ export default function CrearCuanta() {
         .min(6, 'El password debe ser de al menos 6 caracteres'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      registrarUsuario(values);
     },
   });
 
   return (
-    <Layout>
+    <Layout
+      title="Crear Cuenta"
+      description="Crear Cuenta, para enviar tus archios a tus clientes o amigos"
+      as="preload"
+    >
       <div className="md:w-4/5 xl:w-3/5 mx-auto mb-32">
         <h2 className="text-4xl font-sans font-bold text-gray-800 text-center my-4">
           Crear Cuenta
