@@ -17,9 +17,7 @@ export default function CrearCuanta() {
       email: Yup.string()
         .email('El Email no es válido')
         .required('El Email es obligatorio'),
-      password: Yup.string()
-        .required('EL password es obligatorio')
-        
+      password: Yup.string().required('EL password es obligatorio'),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -30,7 +28,8 @@ export default function CrearCuanta() {
     <Layout
       title="Iniciar Sesión"
       description="Iniciar Sesión, para enviar tus archios a tus clientes o amigos"
-      as="preload"
+      rel="preload"
+      as="login"
     >
       <div className="md:w-4/5 xl:w-3/5 mx-auto mb-32">
         <h2 className="text-4xl font-sans font-bold text-gray-800 text-center my-4">
