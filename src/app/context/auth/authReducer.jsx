@@ -7,6 +7,7 @@ import {
   LOGIN_ERROR,
   LOGIN_EXITOSO,
   USUARIO_AUTENTICADO,
+  CERRAR_SESION,
 } from '@/app/types';
 
 export default function authReducer(state, action) {
@@ -35,6 +36,15 @@ export default function authReducer(state, action) {
       return {
         ...state,
         usuario: action.payload,
+      };
+    case CERRAR_SESION:
+      localStorage.removeItem('token');
+
+      return {
+        ...state,
+        autenticado: null,
+        usuario: null,
+        token: null,
       };
 
     default:

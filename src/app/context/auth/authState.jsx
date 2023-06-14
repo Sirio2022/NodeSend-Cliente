@@ -11,6 +11,7 @@ import {
   LOGIN_EXITOSO,
   LOGIN_ERROR,
   USUARIO_AUTENTICADO,
+  CERRAR_SESION,
 } from '@/app/types';
 
 import axiosInstance from '@/app/config/axios';
@@ -19,7 +20,7 @@ import tokenAuth from '@/app/config/tokenAuth';
 const AuthState = ({ children }) => {
   // Definir un state inicial
   const initialState = {
-    token: typeof window !== 'undefined' ? localStorage.getItem('token') : '',
+    token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
     autenticado: null,
     usuario: null,
     mensaje: null,
@@ -89,11 +90,19 @@ const AuthState = ({ children }) => {
         });
       }
     } catch (error) {
+      console.log(error.response);
       dispatch({
         type: LOGIN_ERROR,
-        payload: error.response.data.msg,
+        payload: error.response,
       });
     }
+  };
+
+  // Cerrar la sesión
+  const cerrarSesion = () => {
+    dispatch({
+      type: CERRAR_SESION,
+    });
   };
 
   return (
@@ -106,6 +115,7 @@ const AuthState = ({ children }) => {
         usuarioAutenticado,
         registrarUsuario,
         iniciarSesion,
+        cerrarSesion,
       }}
     >
       {children}
