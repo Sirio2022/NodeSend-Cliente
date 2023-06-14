@@ -1,11 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import AuthContext from '../context/auth/authContext';
+import Alerta from '../components/Alerta';
+import { useRouter } from 'next/navigation';
 
 export default function CrearCuanta() {
+  // Routing
+  const router = useRouter();
+  // Definir el context
+  const authContext = useContext(AuthContext);
+  const { iniciarSesion, mensaje, autenticado } = authContext;
+
+  // Si el usuario se autentica
+  useEffect(() => {
+    if (autenticado) {
+      router.push('/');
+    }
+  }, [autenticado, router]);
+
   // Formulario y validación con formik y yup
 
   const formik = useFormik({
@@ -20,7 +36,7 @@ export default function CrearCuanta() {
       password: Yup.string().required('EL password es obligatorio'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      iniciarSesion(values);
     },
   });
 
@@ -35,6 +51,7 @@ export default function CrearCuanta() {
         <h2 className="text-4xl font-sans font-bold text-gray-800 text-center my-4">
           Iniciar Sesión
         </h2>
+        {mensaje && <Alerta />}
 
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-lg">

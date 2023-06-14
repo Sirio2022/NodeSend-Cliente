@@ -1,7 +1,21 @@
-import React from 'react';
+'use client'
+
+import React, { useContext, useEffect } from 'react';
 import Layout from './components/Layout';
+import AuthContext from './context/auth/authContext';
 
 export default function Page() {
+
+  // Extraer el usuario autenticado del storage
+  const authContext = useContext(AuthContext);
+  const { usuarioAutenticado } = authContext;
+
+  useEffect(() => {
+    usuarioAutenticado();
+  }, [usuarioAutenticado]);
+ 
+
+
   return (
     <Layout
       title="Home"
