@@ -1,10 +1,37 @@
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="py-8 flex flex-col md:flex-row items-center justify-between">
-      <Image src="/logo.svg" width={142} height={142} alt="Logo" className='w-64 mb-8 md:mb-0' />
-    </header>
+    <>
+      <header className="py-8 flex flex-col md:flex-row items-center justify-between">
+        <Link href="/">
+          <Image
+            src="/logo.svg"
+            width={142}
+            height={142}
+            alt="Logo"
+            className="w-64 mb-8 md:mb-0"
+            priority={true}
+          />
+        </Link>
+
+        <div>
+          <Link
+            className="bg-red-500 px-5 py-3 rounded-lg text-white font-bold uppercase mr-2"
+            href="/login"
+          >
+            Iniciar sesión
+          </Link>
+          <Link
+            href="/crearcuenta"
+            className="bg-black px-5 py-3 rounded-lg text-white font-bold uppercase"
+          >
+            Crear cuenta
+          </Link>
+        </div>
+      </header>
+    </>
   );
 }
