@@ -10,7 +10,7 @@ export default function crearcuenta() {
   // Acceder al state
 
   const authContext = useContext(AuthContext);
-  const { usuarioAutenticado } = authContext;
+  const { registrarUsuario } = authContext;
 
  
 
@@ -38,7 +38,7 @@ export default function crearcuenta() {
         .min(6, 'El password debe ser de al menos 6 caracteres'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      registrarUsuario(values);
     },
   });
 
