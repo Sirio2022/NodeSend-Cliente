@@ -3,7 +3,7 @@ import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 import axiosInstance from '../../config/axios';
 
-import { USUARIO_AUTENTICADO } from '../../types';
+import { REGISTRO_EXITOSO, REGISTRO_ERROR, LIMPIAR_ALERTA } from '../../types';
 
 const AuthState = ({ children }) => {
   // Definir un state inicial
@@ -21,28 +21,40 @@ const AuthState = ({ children }) => {
   const registrarUsuario = async (datos) => {
     try {
       const respuesta = await axiosInstance.post('/api/usuarios', datos);
-      console.log(respuesta);
+
+      dispatch({
+        type: REGISTRO_EXITOSO,
+        payload: respuesta.data.msg,
+      });
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: REGISTRO_ERROR,
+        payload: error.response.data.msg,
+      });
     }
+    // Limpia la alerta después de 3 segundos
+    setTimeout(() => {
+      dispatch({
+        type: LIMPIAR_ALERTA,
+      });
+    }, 3000);
   };
 
   // Usuario autenticado
-    const usuarioAutenticado = (nombre) => {
-        dispatch({
-            type: USUARIO_AUTENTICADO,
-            payload: nombre,
-        });
-    };
 
-  return <AuthContext.Provider value={{
-    token: state.token,
-    autenticado: state.autenticado,
-    usuario: state.usuario,
-    mensaje: state.mensaje,
-    registrarUsuario,
-    usuarioAutenticado,
-  }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        token: state.token,
+        autenticado: state.autenticado,
+        usuario: state.usuario,
+        mensaje: state.mensaje,
+        registrarUsuario,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthState;

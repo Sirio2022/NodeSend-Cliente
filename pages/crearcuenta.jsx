@@ -5,12 +5,13 @@ import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AuthContext from '../context/auth/authContext';
+import Alerta from '../components/Alerta';
 
 export default function crearcuenta() {
   // Acceder al state
 
   const authContext = useContext(AuthContext);
-  const { registrarUsuario } = authContext;
+  const { registrarUsuario, mensaje } = authContext;
 
  
 
@@ -48,6 +49,7 @@ export default function crearcuenta() {
         <h2 className="text-4xl text-center font-bold text-gray-800 my-4 font-sans">
           Crear Cuenta
         </h2>
+        {mensaje ? <Alerta /> : null}
 
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-lg">
