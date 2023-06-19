@@ -1,9 +1,23 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import AuthContext from '../context/auth/authContext';
 
 export default function crearcuenta() {
+  // Acceder al state
+
+  const authContext = useContext(AuthContext);
+  const { usuarioAutenticado } = authContext;
+
+ 
+
+
+
+
+
   // Formulario y validación con formik y yup
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const formik = useFormik({
