@@ -2,10 +2,8 @@ import Layout from '../../components/Layout';
 import axiosInstance from '../../config/axios';
 
 export async function getServerSideProps({ params }) {
-  const { enlace } = params;
-
   const resultado = await axiosInstance.get(`/api/enlaces/${params.enlace}`);
-  console.log(resultado);
+
   return {
     props: {
       enlaces: resultado.data,
@@ -25,6 +23,7 @@ export async function getServerSidePaths() {
 }
 
 export default function Enlace({ enlaces }) {
+  console.log(enlaces);
   return (
     <Layout>
       <h1>Desde [enlace].jsx</h1>
