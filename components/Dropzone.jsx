@@ -6,7 +6,7 @@ import appContext from '../context/app/appContext';
 const Dropzone = () => {
   // Extraer funciones de appContext
   const AppContext = useContext(appContext);
-  const { mostrarAlerta } = AppContext;
+  const { mostrarAlerta, subirArchivo, cargando } = AppContext;
 
   const onDropRejected = () => {
     mostrarAlerta(
@@ -14,16 +14,16 @@ const Dropzone = () => {
     );
   };
 
-  const onDropAccepted = useCallback(async (acceptedFiles) => {
-    console.log(acceptedFiles);
+  const onDropAccepted = useCallback(
+    async (acceptedFiles) => {
+      // Crear un form data
+      const formData = new FormData();
+      formData.append('archivo', acceptedFiles[0]);
 
-    // Crear un form data
-    const formData = new FormData();
-    formData.append('archivo', acceptedFiles[0]);
-
-    const resultado = await axiosInstance.post('/api/archivos', formData);
-    console.log(resultado.data);
-  }, []);
+      subirArchivo(formData, acceptedFiles[0].path);
+    },
+    [subirArchivo]
+  );
 
   // Extraer contenido de Dropzone
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
@@ -55,13 +55,31 @@ const Dropzone = () => {
             <div className="mt-10 w-full">
               <h4 className="text-2xl font-bold text-center mb-4">Archivos</h4>
               <ul>{archivos}</ul>
-              <button
-                type="button"
-                className="bg-blue-700 w-full py-3 rounded-lg text-white my-10 hover:bg-blue-800"
-                onClick={() => crearEnlace()}
-              >
-                Crear Enlace
-              </button>
+              {cargando ? (
+                <>
+                  <p
+                    className='text-2xl text-black text-center my-5'
+                  >
+                    Subiendo Archivo!
+                  </p>
+                  <div className="spinner">
+                    <div className="rect1"></div>
+                    <div className="rect2"></div>
+                    <div className="rect3"></div>
+                    <div className="rect4"></div>
+                    <div className="rect5"></div>
+                  </div>
+                
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="bg-blue-700 w-full py-3 rounded-lg text-white my-10 hover:bg-blue-800"
+                  onClick={() => crearEnlace()}
+                >
+                  Crear Enlace
+                </button>
+              )}
             </div>
           </>
         ) : (
