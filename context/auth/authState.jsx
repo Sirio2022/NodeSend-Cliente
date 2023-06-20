@@ -1,14 +1,24 @@
 import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
-import axiosInstance from '../../config/axios';
 
-import { REGISTRO_EXITOSO, REGISTRO_ERROR, LIMPIAR_ALERTA } from '../../types';
+import axiosInstance from '../../config/axios';
+import tokenAuth from '../../config/tokenAuth';
+
+import {
+  REGISTRO_EXITOSO,
+  REGISTRO_ERROR,
+  LIMPIAR_ALERTA,
+  LOGIN_EXITOSO,
+  LOGIN_ERROR,
+  USUARIO_AUTENTICADO,
+  CERRAR_SESION,
+} from '../../types';
 
 const AuthState = ({ children }) => {
   // Definir un state inicial
   const initialState = {
-    token: '',
+    token: typeof window !== 'undefined' ? localStorage.getItem('token') : '',
     autenticado: null,
     usuario: null,
     mensaje: null,
@@ -40,7 +50,58 @@ const AuthState = ({ children }) => {
     }, 3000);
   };
 
-  // Usuario autenticado
+  // Autenticar usuarios
+  const iniciarSesion = async (data) => {
+    try {
+      const respuesta = await axiosInstance.post('/api/auth', data);
+
+      dispatch({
+        type: LOGIN_EXITOSO,
+        payload: respuesta.data.token,
+      });
+    } catch (error) {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+    // Limpia la alerta después de 3 segundos
+    setTimeout(() => {
+      dispatch({
+        type: LIMPIAR_ALERTA,
+      });
+    }, 3000);
+  };
+
+  // Retorna el usuario autenticado en base al JWT
+  const usuarioAutenticado = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      tokenAuth(token);
+    }
+    try {
+      const respuesta = await axiosInstance.get('/api/auth');
+      console.log(respuesta.data.usuario);
+      if (respuesta.data.usuario) {
+        dispatch({
+          type: USUARIO_AUTENTICADO,
+          payload: respuesta.data.usuario,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: error.response.data.msg,
+      });
+    }
+  };
+
+  // Cerrar sesión
+  const cerrarSesion = () => {
+    dispatch({
+      type: CERRAR_SESION,
+    });
+  };
 
   return (
     <AuthContext.Provider
@@ -50,6 +111,9 @@ const AuthState = ({ children }) => {
         usuario: state.usuario,
         mensaje: state.mensaje,
         registrarUsuario,
+        iniciarSesion,
+        usuarioAutenticado,
+        cerrarSesion,
       }}
     >
       {children}

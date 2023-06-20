@@ -1,9 +1,30 @@
-import React from 'react';
+import React, { useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import authContext from '../context/auth/authContext';
+import Alerta from '../components/Alerta';
+import { useRouter } from 'next/router';
 
-export default function crearcuenta() {
+export default function Crearcuenta() {
+  // Acceder al state
+  const AuthContext = useContext(authContext);
+  const { mensaje, iniciarSesion, autenticado } = AuthContext;
+
+  // Next router
+  const router = useRouter();
+
+  useEffect(() => {
+    if (autenticado) {
+      router.push('/');
+    }
+  }, [ autenticado, router]);
+
+
+
+
+
+
   // Formulario y validación con formik y yup
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const formik = useFormik({
@@ -19,7 +40,7 @@ export default function crearcuenta() {
       password: Yup.string().required('El password es obligatorio'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      iniciarSesion(values);
     },
   });
 
@@ -29,6 +50,7 @@ export default function crearcuenta() {
         <h2 className="text-4xl text-center font-bold text-gray-800 my-4 font-sans">
           Iniciar Sesión
         </h2>
+        {mensaje ? <Alerta /> : null}
 
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-lg">
