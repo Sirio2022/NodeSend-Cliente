@@ -6,7 +6,7 @@ import appContext from '../context/app/appContext';
 const Dropzone = () => {
   // Extraer funciones de appContext
   const AppContext = useContext(appContext);
-  const { mostrarAlerta, subirArchivo, cargando } = AppContext;
+  const { mostrarAlerta, subirArchivo, cargando, crearEnlace } = AppContext;
 
   const onDropRejected = () => {
     mostrarAlerta(
@@ -42,10 +42,6 @@ const Dropzone = () => {
     </li>
   ));
 
-  // Crear enlace de descarga
-  const crearEnlace = async () => {
-    console.log('Creando el enlace...');
-  };
 
   return (
     <>

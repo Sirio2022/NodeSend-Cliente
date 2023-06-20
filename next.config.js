@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    backendURL: 'http://localhost:4000',
+    backendURL: 'http://127.0.0.1:4000',
+    frontendURL: 'http://127.0.0.0:3000',
   },
 };
 
