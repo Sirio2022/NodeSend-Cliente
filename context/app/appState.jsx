@@ -9,6 +9,7 @@ import {
   SUBIR_ARCHIVO_ERROR,
   CREAR_ENLACE_EXITO,
   CREAR_ENLACE_ERROR,
+  LIMPIAR_STATE,
 } from '../../types';
 import axiosInstance from '../../config/axios';
 
@@ -86,6 +87,18 @@ const AppState = ({ children }) => {
     }
   };
 
+  // Limpiar State
+  const limpiarState = () => {
+    dispatch({
+      type: LIMPIAR_STATE,
+    });
+  };
+
+  // Agregar password
+  const agregarPassword = (password) => {
+    console.log('password', password);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -100,6 +113,8 @@ const AppState = ({ children }) => {
         mostrarAlerta,
         subirArchivo,
         crearEnlace,
+        limpiarState,
+        agregarPassword,
       }}
     >
       {children}

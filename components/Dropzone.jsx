@@ -2,11 +2,17 @@ import React, { useCallback, useContext } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axiosInstance from '../config/axios';
 import appContext from '../context/app/appContext';
+import authContext from '../context/auth/authContext';
+import Formulario from './Formulario';
 
 const Dropzone = () => {
   // Extraer funciones de appContext
   const AppContext = useContext(appContext);
   const { mostrarAlerta, subirArchivo, cargando, crearEnlace } = AppContext;
+
+  // Extraer funciones de authContext
+  const AuthContext = useContext(authContext);
+  const { usuario, autenticado } = AuthContext;
 
   const onDropRejected = () => {
     mostrarAlerta(
@@ -42,7 +48,6 @@ const Dropzone = () => {
     </li>
   ));
 
-
   return (
     <>
       <div className="md:flex-1 mb-3 mx-2 mt-16 lg:mt-0 flex flex-col items-center justify-center border-dashed border-gray-400 border-2 bg-gray-200 px-4">
@@ -51,11 +56,12 @@ const Dropzone = () => {
             <div className="mt-10 w-full">
               <h4 className="text-2xl font-bold text-center mb-4">Archivos</h4>
               <ul>{archivos}</ul>
+
+              {autenticado ? <Formulario /> : 'No autenticado'}
+
               {cargando ? (
                 <>
-                  <p
-                    className='text-2xl text-black text-center my-5'
-                  >
+                  <p className="text-2xl text-black text-center my-5">
                     Subiendo Archivo!
                   </p>
                   <div className="spinner">
@@ -65,7 +71,6 @@ const Dropzone = () => {
                     <div className="rect4"></div>
                     <div className="rect5"></div>
                   </div>
-                
                 </>
               ) : (
                 <button

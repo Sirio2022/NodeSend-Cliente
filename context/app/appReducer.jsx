@@ -6,6 +6,7 @@ import {
   SUBIR_ARCHIVO_ERROR,
   CREAR_ENLACE_EXITO,
   CREAR_ENLACE_ERROR,
+  LIMPIAR_STATE,
 } from '../../types';
 
 export default function AppReducer(state, action) {
@@ -42,6 +43,19 @@ export default function AppReducer(state, action) {
       return {
         ...state,
         url: action.payload,
+      };
+
+    case LIMPIAR_STATE:
+      return {
+        ...state,
+        mensaje_archivo: null,
+        nombre: '',
+        nombre_original: '',
+        cargando: null,
+        descargas: 1,
+        password: '',
+        autor: null,
+        url: '',
       };
     default:
       return state;
