@@ -7,6 +7,8 @@ import {
   CREAR_ENLACE_EXITO,
   CREAR_ENLACE_ERROR,
   LIMPIAR_STATE,
+  AGREGAR_PASSWORD,
+  AGREGAR_DESCARGAS,
 } from '../../types';
 
 export default function AppReducer(state, action) {
@@ -56,6 +58,16 @@ export default function AppReducer(state, action) {
         password: '',
         autor: null,
         url: '',
+      };
+    case AGREGAR_PASSWORD:
+      return {
+        ...state,
+        password: action.payload,
+      };
+    case AGREGAR_DESCARGAS:
+      return {
+        ...state,
+        descargas: action.payload,
       };
     default:
       return state;

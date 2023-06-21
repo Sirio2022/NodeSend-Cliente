@@ -4,7 +4,7 @@ import AppContext from '../context/app/appContext';
 export default function Formulario() {
   // Context de la app
   const appContext = useContext(AppContext);
-  const { agregarPassword } = appContext;
+  const { agregarPassword, agregarDescargas } = appContext;
 
   const [tienePassword, setTienePassword] = useState(false);
 
@@ -15,7 +15,10 @@ export default function Formulario() {
           Eliminar archivos despues de:
         </label>
 
-        <select className="appearance-none w-full mt-2 bg-white border border-gray-400 text-black py-3 px-4 pr-8 rounded leading-none focus:outline-none focus:border-gray-500 mb-10">
+        <select
+          onChange={(e) => agregarDescargas(parseInt(e.target.value))}
+          className="appearance-none w-full mt-2 bg-white border border-gray-400 text-black py-3 px-4 pr-8 rounded leading-none focus:outline-none focus:border-gray-500 mb-10"
+        >
           <option value="" selected disabled>
             -- Seleccione --
           </option>

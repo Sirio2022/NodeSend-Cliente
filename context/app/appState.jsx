@@ -10,6 +10,8 @@ import {
   CREAR_ENLACE_EXITO,
   CREAR_ENLACE_ERROR,
   LIMPIAR_STATE,
+  AGREGAR_PASSWORD,
+  AGREGAR_DESCARGAS,
 } from '../../types';
 import axiosInstance from '../../config/axios';
 
@@ -96,7 +98,18 @@ const AppState = ({ children }) => {
 
   // Agregar password
   const agregarPassword = (password) => {
-    console.log('password', password);
+    dispatch({
+      type: AGREGAR_PASSWORD,
+      payload: password,
+    });
+  };
+
+  // Agregar un número de descargas
+  const agregarDescargas = (descargas) => {
+    dispatch({
+      type: AGREGAR_DESCARGAS,
+      payload: descargas,
+    });
   };
 
   return (
@@ -115,6 +128,7 @@ const AppState = ({ children }) => {
         crearEnlace,
         limpiarState,
         agregarPassword,
+        agregarDescargas,
       }}
     >
       {children}
